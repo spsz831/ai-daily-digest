@@ -73,49 +73,26 @@ OPENAI_MODEL=gpt-5.4
 
 ---
 
-## 使用方式（推荐顺序）
+## 使用方式
 
-## 方式 A：自然语言触发（最推荐）
+这个项目只保留 3 种运行方式。
 
-```bat
-scripts\digest-intent.cmd 来一份今日日报
-scripts\digest-intent.cmd AI快讯 英文
-scripts\digest-intent.cmd AI深度日报 waytoagi
-scripts\digest-intent.cmd AI日报 仅openai gpt-5.4
-```
+### 1) 双击 `.cmd` 启动
 
-### 支持关键词（可组合）
-
-- 类型：`今日日报` `晨报` `午报` `晚报` `快讯` `速览` `深度` `周报`
-- 语言：`中文` `英文` / `english`
-- 模型：`flash-latest` `flash-preview` `pro-preview` `3.1-pro-preview` `gpt-5.4` `gpt-5.3`
-- 策略：`waytoagi` `仅openai` / `openai-only`
-
----
-
-## 方式 B：固定快捷命令
+直接运行：
 
 ```bat
-scripts\digest-today.cmd
-scripts\digest-brief.cmd
-scripts\digest-deep.cmd
-scripts\digest-weekly.cmd
-scripts\digest-openai-only.cmd
+scripts\ai-daily-digest-launcher.cmd
 ```
 
-含义：
-- `digest-today`：48h / Top 15 / 中文
-- `digest-brief`：24h / Top 10
-- `digest-deep`：72h / Top 20
-- `digest-weekly`：7天 / Top 20
-- `digest-openai-only`：仅 OpenAI
+适合：
+- 日常手动使用
+- 不想记参数
 
----
+### 2) PowerShell / 终端命令执行
 
-## 方式 C：直接命令行参数运行
-
-```bash
-npx -y bun scripts/digest.ts --hours 48 --top-n 15 --lang zh --output ./reports/digest-manual.md
+```powershell
+npx -y bun scripts/digest.ts --hours 48 --top-n 15 --lang zh --output ./reports/output/ai-daily-digest-manual.md --health-log ./reports/health/run-manual.json
 ```
 
 常用参数：
@@ -126,21 +103,25 @@ npx -y bun scripts/digest.ts --hours 48 --top-n 15 --lang zh --output ./reports/
 - `--output <path>`
 - `--health-log <path>`
 
----
+### 3) 在 Codex / Claude Code 中执行
 
-## 方式 D：在 Codex / Claude Code 中调用
-
-可直接让代理执行本地命令，例如：
+代理本质上也是执行这两个入口之一。推荐直接让代理运行下面两种命令：
 
 ```text
-请在项目目录执行：scripts\digest-intent.cmd 来一份今日日报
+请在项目目录执行：scripts\ai-daily-digest-launcher.cmd
+```
+
+或：
+
+```text
+请在项目目录执行：npx -y bun scripts/digest.ts --hours 48 --top-n 15 --lang zh --output ./reports/output/ai-daily-digest-manual.md --health-log ./reports/health/run-manual.json
 ```
 
 ---
 
 ## 输出与目录
 
-- 日报输出（默认）：`./reports/digest-YYYYMMDD-HHmm.md`
+- 日报输出（默认）：`./reports/output/ai-daily-digest-YYYYMMDD-HHmm.md`
 - 健康日志（默认）：`./reports/health/run-YYYYMMDD-HHmm.json`
 
 可通过环境变量覆盖输出目录：

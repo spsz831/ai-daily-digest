@@ -1259,8 +1259,8 @@ Options:
   --top-n <n>     Number of top articles to include (default: 15)
   --lang <lang>   Summary language: zh or en (default: zh)
   --waytoagi-limit <n> Optional: include latest N posts from waytoagi blog (default: 0, disabled)
-  --output <path> Output file path (default: ./digest-YYYYMMDD.md)
-  --health-log <path> Optional health log JSON path (default: <output-dir>/health/run-YYYYMMDD-HHmm.json)
+  --output <path> Output file path (default: ./reports/output/ai-daily-digest-YYYYMMDD.md)
+  --health-log <path> Optional health log JSON path (default: ./reports/health/run-YYYYMMDD-HHmm.json)
   --help          Show this help
 
 Environment:
@@ -1272,7 +1272,7 @@ Environment:
 
 Examples:
   bun scripts/digest.ts --hours 24 --top-n 10 --lang zh
-  bun scripts/digest.ts --hours 72 --top-n 20 --lang en --output ./my-digest.md
+  bun scripts/digest.ts --hours 72 --top-n 20 --lang en --output ./reports/output/my-digest.md
 `);
   process.exit(0);
 }
@@ -1325,10 +1325,10 @@ async function main(): Promise<void> {
     openaiModel,
   });
   
-  if (!outputPath) {
-    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    outputPath = `./digest-${dateStr}.md`;
-  }
+    if (!outputPath) {
+      const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      outputPath = `./reports/output/ai-daily-digest-${dateStr}.md`;
+    }
   
   console.log(`[digest] === AI Daily Digest ===`);
   console.log(`[digest] Time range: ${hours} hours`);
@@ -1446,7 +1446,7 @@ async function main(): Promise<void> {
 
   if (!healthLogPath) {
     const ts = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
-    healthLogPath = join(dirname(outputPath), 'health', `run-${ts}.json`);
+      healthLogPath = `./reports/health/run-${ts}.json`;
   }
 
   const healthSummary = {
